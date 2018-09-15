@@ -1,12 +1,5 @@
 #! /usr/bin/python3
-
 import random
-
-def strBoldRed(str):
-    return "\x1b[1;31m" + str + "\x1b[0m"
-
-def strYellow(str):
-    return "\x1b[33m" + str + "\x1b[0m"
 
 class minePixel:
     isMine = False
@@ -20,12 +13,12 @@ mines = 20
 
 matrix = [[minePixel() for i in range(x)] for j in range(y)]
 
-# putting mines randomly in points
+# putting mines randomly in pixels
 counter = 0
 while counter < mines:
-    rand_x = random.randint(0, x - 1)
-    rand_y = random.randint(0, y - 1)
-    if not matrix[rand_x][rand_y].isMine:
+    rand_x = random.randint(0, x-1)
+    rand_y = random.randint(0, y-1)
+    if matrix[rand_x][rand_y].isMine == False:
         matrix[rand_x][rand_y].isMine = True
         counter += 1
 
@@ -42,10 +35,13 @@ def getMinesAround(x_, y_):
                     counter += 1
     return counter
 
-def printMatrix(isGameOver = False, x_ = -1, y_ = -1):
-    if isGameOver:
-        print(strBoldRed("\nGame Over!"))
+def strBoldRed(str):
+    return "\x1b[1;31m" + str + "\x1b[0m"
 
+def strYellow(str):
+    return "\x1b[33m" + str + "\x1b[0m"
+
+def printMatrix():
     # x axis
     print("\n  ", end="")
     for j in range(x):
@@ -57,7 +53,26 @@ def printMatrix(isGameOver = False, x_ = -1, y_ = -1):
         for j in range(x):
             if matrix[j][i].isSweeped:
                 print(str(matrix[j][i].minesAround) + " ", end="")
-            elif isGameOver and matrix[j][i].isMine:
+            elif matrix[j][i].isFlag:
+                print(strYellow("? "), end="")
+            else:
+                print("- ", end="")
+        print()
+
+def printGameoverMatrix(x_, y_):
+    print(strBoldRed("\nGame Over!"))
+    # x axis
+    print("\n  ", end="")
+    for j in range(x):
+        print(strBoldRed(str(j) + " "), end="")
+    print()
+
+    for i in range(y):
+        print(strBoldRed(str(i) + " "), end="")
+        for j in range(x):
+            if matrix[j][i].isSweeped:
+                print(str(matrix[j][i].minesAround) + " ", end="")
+            elif matrix[j][i].isMine:
                 if j == x_ and i == y_:
                     print(strBoldRed("x "), end="")
                 else:
@@ -70,11 +85,11 @@ def printMatrix(isGameOver = False, x_ = -1, y_ = -1):
 
 def sweepPixel(x_, y_):
     if matrix[x_][y_].isMine:
-        printMatrix(True, x_, y_)
+        printGameoverMatrix(x_, y_)
         exit()
     matrix[x_][y_].isSweeped = True
-    value = matrix[x_][y_].minesAround = getMinesAround(x_, y_)
-    if value == 0:
+    minesAround = matrix[x_][y_].minesAround = getMinesAround(x_, y_)
+    if minesAround == 0:
         range = [-1, 0, 1]
         for i in range:
             for j in range:
