@@ -7,9 +7,9 @@ class minePixel:
     isSweeped = False
     minesAround = 0
 
-x = 10
-y = 10
-mines = 20
+x = 30 
+y = 30
+mines = 70
 
 matrix = [[minePixel() for i in range(x)] for j in range(y)]
 
@@ -45,11 +45,17 @@ def printMatrix():
     # x axis
     print("\n  ", end="")
     for j in range(x):
-        print(strBoldRed(str(j) + " "), end="")
+        if j >= 10:
+            print(strBoldRed(chr(j + 55) + " "), end="")
+        else:
+            print(strBoldRed(str(j) + " "), end="")
     print()
 
     for i in range(y):
-        print(strBoldRed(str(i) + " "), end="")
+        if i >= 10:
+            print(strBoldRed(chr(i + 55) + " "), end="")
+        else:
+            print(strBoldRed(str(i) + " "), end="")
         for j in range(x):
             if matrix[j][i].isSweeped:
                 print(str(matrix[j][i].minesAround) + " ", end="")
@@ -64,11 +70,18 @@ def printGameoverMatrix(x_, y_):
     # x axis
     print("\n  ", end="")
     for j in range(x):
-        print(strBoldRed(str(j) + " "), end="")
+        if j >= 10:
+            print(strBoldRed(chr(j + 55) + " "), end="")
+        else:
+            print(strBoldRed(str(j) + " "), end="")
     print()
 
     for i in range(y):
-        print(strBoldRed(str(i) + " "), end="")
+        if i >= 10:
+            print(strBoldRed(chr(i + 55) + " "), end="")
+        else:
+            print(strBoldRed(str(i) + " "), end="")
+
         for j in range(x):
             if matrix[j][i].isSweeped:
                 print(str(matrix[j][i].minesAround) + " ", end="")
@@ -121,8 +134,16 @@ while True:
         exit()
 
     # user input
-    input_x = int(input("x: "))
-    input_y = int(input("y: "))
+    input_x = input("x: ")
+    if ord(input_x) >= 65:
+        input_x = ord(input_x.lower()) - 87
+    else:
+        input_x = int(input_x)
+    input_y = input("y: ")
+    if ord(input_y) >= 65:
+        input_y = ord(input_y.lower()) - 87
+    else:
+        input_y = int(input_y)
 
     selectedPixel = matrix[input_x][input_y]
 
