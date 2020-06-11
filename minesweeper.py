@@ -1,5 +1,7 @@
-#! /usr/bin/python3
+#!/usr/bin/python3
+
 import random
+import os
 
 class minePixel:
     isMine = False
@@ -7,9 +9,9 @@ class minePixel:
     isSweeped = False
     minesAround = 0
 
-x = 30 
-y = 30
-mines = 70
+x = 12 
+y = 12
+mines = 30
 
 matrix = [[minePixel() for i in range(x)] for j in range(y)]
 
@@ -42,6 +44,7 @@ def strYellow(str):
     return "\x1b[33m" + str + "\x1b[0m"
 
 def printMatrix():
+    os.system("clear")
     # x axis
     print("\n  ", end="")
     for j in range(x):
@@ -49,7 +52,7 @@ def printMatrix():
             print(strBoldRed(chr(j + 55) + " "), end="")
         else:
             print(strBoldRed(str(j) + " "), end="")
-    print()
+    print("x")
 
     for i in range(y):
         if i >= 10:
@@ -64,8 +67,11 @@ def printMatrix():
             else:
                 print("- ", end="")
         print()
+    print("y")
+    print()
 
 def printGameoverMatrix(x_, y_):
+    os.system("clear")
     print(strBoldRed("\nGame Over!"))
     # x axis
     print("\n  ", end="")
@@ -74,7 +80,7 @@ def printGameoverMatrix(x_, y_):
             print(strBoldRed(chr(j + 55) + " "), end="")
         else:
             print(strBoldRed(str(j) + " "), end="")
-    print()
+    print("x")
 
     for i in range(y):
         if i >= 10:
@@ -95,6 +101,8 @@ def printGameoverMatrix(x_, y_):
             else:
                 print("- ", end="")
         print()
+    print("y")
+    print()
 
 def sweepPixel(x_, y_):
     if matrix[x_][y_].isMine:
